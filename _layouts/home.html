@@ -1,0 +1,128 @@
+---
+layout: default
+---
+{%- comment -%}
+  The home page. You normally don't edit this file:
+    - About text   → index.md
+    - Skills       → _data/skills.yml
+    - Projects     → one file per project in _projects/
+    - Courses      → _data/courses.yml
+    - Activities   → _data/activities.yml
+{%- endcomment -%}
+
+<section class="hero container" aria-labelledby="hero-title">
+  <p class="eyebrow">{{ site.author.headline }}</p>
+  <h1 id="hero-title" class="hero__title">{{ site.author.name }}</h1>
+  <p class="hero__intro">{{ site.author.intro }}</p>
+  {%- if site.author.status and site.author.status != "" %}
+  <p class="hero__status"><span class="dot" aria-hidden="true"></span>{{ site.author.status }}</p>
+  {%- endif %}
+  {% include links.html %}
+</section>
+
+<section id="about" class="section container" aria-labelledby="about-title">
+  <h2 id="about-title" class="section__label">About</h2>
+  <div class="section__body">
+    <div class="about{% if site.author.photo and site.author.photo != '' %} about--photo{% endif %}">
+      <div class="prose about__text">
+        {{ content }}
+      </div>
+      {%- if site.author.photo and site.author.photo != "" %}
+      <div class="about__photo">
+        <img src="{{ site.author.photo | relative_url }}" alt="Portrait of {{ site.author.name }}" width="800" height="1000" loading="lazy" decoding="async">
+      </div>
+      {%- endif %}
+    </div>
+
+    {%- if site.data.skills.size > 0 %}
+    <dl class="skills">
+      {%- for group in site.data.skills %}
+      <div class="skills__row">
+        <dt>{{ group.group }}</dt>
+        <dd>{{ group.items | join: ", " }}</dd>
+      </div>
+      {%- endfor %}
+    </dl>
+    {%- endif %}
+  </div>
+</section>
+
+<section id="projects" class="section container" aria-labelledby="projects-title">
+  <h2 id="projects-title" class="section__label">Projects</h2>
+  <div class="section__body">
+    {%- assign projects = site.projects | sort: "date" | reverse -%}
+    {%- if projects.size > 0 %}
+    <ul class="card-grid">
+      {%- for project in projects %}
+      {% include project-card.html project=project %}
+      {%- endfor %}
+    </ul>
+    {%- else %}
+    <p class="muted">Projects will appear here.</p>
+    {%- endif %}
+  </div>
+</section>
+
+<section id="courses" class="section container" aria-labelledby="courses-title">
+  <h2 id="courses-title" class="section__label">Courses</h2>
+  <div class="section__body">
+    <ol class="entries">
+      {%- for course in site.data.courses %}
+      <li class="entry">
+        <div class="entry__aside">
+          <span class="entry__code">{{ course.code }}</span>
+          {%- if course.term %}<span>{{ course.term }}</span>{% endif %}
+        </div>
+        <div class="entry__main">
+          <h3 class="entry__title">{{ course.title }}</h3>
+          {%- if course.description %}
+          <div class="entry__text">{{ course.description | markdownify }}</div>
+          {%- endif %}
+          {%- if course.topics.size > 0 %}
+          <ul class="tags" aria-label="Topics">
+            {%- for topic in course.topics %}<li>{{ topic }}</li>{% endfor %}
+          </ul>
+          {%- endif %}
+          {%- if course.project and course.project != "" %}
+          <a class="entry__more" href="{{ course.project | relative_url }}">Related project{% include icon-arrow-right.html %}</a>
+          {%- endif %}
+        </div>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+</section>
+
+<section id="activities" class="section container" aria-labelledby="activities-title">
+  <h2 id="activities-title" class="section__label">Activities</h2>
+  <div class="section__body">
+    <ol class="entries">
+      {%- for activity in site.data.activities %}
+      <li class="entry">
+        <div class="entry__aside">
+          <span>{{ activity.dates }}</span>
+          {%- if activity.location %}<span>{{ activity.location }}</span>{% endif %}
+        </div>
+        <div class="entry__main">
+          <h3 class="entry__title">{{ activity.role }}{% if activity.organization %}<span class="entry__org">{{ activity.organization }}</span>{% endif %}</h3>
+          {%- if activity.description %}
+          <div class="entry__text">{{ activity.description | markdownify }}</div>
+          {%- endif %}
+          {%- if activity.highlights.size > 0 %}
+          <ul class="entry__list">
+            {%- for item in activity.highlights %}<li>{{ item | markdownify | remove: "<p>" | remove: "</p>" | strip }}</li>{% endfor %}
+          </ul>
+          {%- endif %}
+          {%- if activity.link and activity.link != "" %}
+          {%- if activity.link contains "://" %}
+          <a class="entry__more" href="{{ activity.link }}" rel="noopener">{{ activity.link_label | default: "Website" }}{% include icon-external.html %}</a>
+          {%- else %}
+          <a class="entry__more" href="{{ activity.link | relative_url }}">{{ activity.link_label | default: "Related project" }}{% include icon-arrow-right.html %}</a>
+          {%- endif %}
+          {%- endif %}
+        </div>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+</section>

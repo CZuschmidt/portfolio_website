@@ -1,0 +1,118 @@
+---
+layout: default
+---
+{%- comment -%}
+  Layout for a single project page. You normally don't edit this file —
+  each project's content lives in its own file in _projects/.
+{%- endcomment -%}
+<article class="project container">
+  <a class="back-link" href="{{ '/#projects' | relative_url }}">{% include icon-arrow-left.html %}All projects</a>
+
+  <header class="project__header">
+    <p class="eyebrow">
+      {%- if page.date %}<time datetime="{{ page.date | date: '%Y-%m' }}">{{ page.date | date: "%B %Y" }}</time>{% endif -%}
+      {%- if page.date and page.category %} · {% endif -%}
+      {%- if page.category %}{{ page.category }}{% endif -%}
+    </p>
+    <h1 class="project__title">{{ page.title }}</h1>
+    {%- if page.summary %}
+    <p class="project__lede">{{ page.summary }}</p>
+    {%- endif %}
+  </header>
+
+  <figure class="project__hero">
+    {%- assign hero_src = page.image | default: '/assets/img/placeholder.svg' | relative_url %}
+    <a class="figure__link" href="{{ hero_src }}" data-zoom{% if page.image_caption %} data-caption="{{ page.image_caption | escape }}"{% endif %}>
+      <img src="{{ hero_src }}" alt="{{ page.image_alt | default: page.title | escape }}" width="1600" height="1000" decoding="async" fetchpriority="high">
+    </a>
+    {%- if page.image_caption %}
+    <figcaption>{{ page.image_caption }}</figcaption>
+    {%- endif %}
+  </figure>
+
+  <div class="section project__layout">
+    <aside class="section__label project__meta" aria-label="Project details">
+      <dl>
+        {%- if page.role %}
+        <div><dt>Role</dt><dd>{{ page.role }}</dd></div>
+        {%- endif %}
+        {%- if page.team %}
+        <div><dt>Team</dt><dd>{{ page.team }}</dd></div>
+        {%- endif %}
+        {%- if page.duration %}
+        <div><dt>Duration</dt><dd>{{ page.duration }}</dd></div>
+        {%- endif %}
+        {%- if page.skills.size > 0 %}
+        <div>
+          <dt>Skills</dt>
+          <dd>
+            <ul class="tags">
+              {%- for skill in page.skills %}<li>{{ skill }}</li>{% endfor %}
+            </ul>
+          </dd>
+        </div>
+        {%- endif %}
+        {%- assign visible_links = page.links | where_exp: "l", "l.url != ''" -%}
+        {%- if visible_links.size > 0 %}
+        <div>
+          <dt>Links</dt>
+          <dd>
+            <ul class="meta-links">
+              {%- for link in visible_links %}
+              {%- if link.url contains "://" %}
+              <li><a href="{{ link.url }}" rel="noopener">{{ link.label }}{% include icon-external.html %}</a></li>
+              {%- else %}
+              <li><a href="{{ link.url | relative_url }}">{{ link.label }}</a></li>
+              {%- endif %}
+              {%- endfor %}
+            </ul>
+          </dd>
+        </div>
+        {%- endif %}
+      </dl>
+    </aside>
+
+    <div class="section__body prose">
+      {{ content }}
+
+      {%- if page.gallery.size > 0 %}
+      <h2>Gallery</h2>
+      <div class="gallery">
+        {%- for item in page.gallery %}
+        {% include figure.html src=item.src alt=item.alt caption=item.caption %}
+        {%- endfor %}
+      </div>
+      {%- endif %}
+    </div>
+  </div>
+
+  {%- comment -%} Previous / next project, in the same order as the home page grid. {%- endcomment -%}
+  {%- assign projects = site.projects | sort: "date" | reverse -%}
+  {%- for p in projects -%}
+    {%- if p.url == page.url -%}
+      {%- assign idx = forloop.index0 -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- assign newer_idx = idx | minus: 1 -%}
+  {%- assign older_idx = idx | plus: 1 -%}
+  {%- if newer_idx >= 0 %}{% assign newer = projects[newer_idx] %}{% endif -%}
+  {%- assign older = projects[older_idx] -%}
+  {%- if newer or older %}
+  <nav class="pager" aria-label="More projects">
+    {%- if newer %}
+    <a class="pager__link" href="{{ newer.url | relative_url }}">
+      <span class="pager__dir">{% include icon-arrow-left.html %}Previous</span>
+      <span class="pager__title">{{ newer.title }}</span>
+    </a>
+    {%- else %}
+    <span></span>
+    {%- endif %}
+    {%- if older %}
+    <a class="pager__link pager__link--next" href="{{ older.url | relative_url }}">
+      <span class="pager__dir">Next{% include icon-arrow-right.html %}</span>
+      <span class="pager__title">{{ older.title }}</span>
+    </a>
+    {%- endif %}
+  </nav>
+  {%- endif %}
+</article>

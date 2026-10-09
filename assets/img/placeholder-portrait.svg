@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <style>
+    .bg { fill: #ecebe6; }
+    .shape { fill: #dcdad3; }
+    .label { fill: #77756e; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1e1e1c; }
+      .shape { fill: #2a2a28; }
+      .label { fill: #8c8b86; }
+    }
+  </style>
+  <rect class="bg" width="800" height="1000"/>
+  <circle class="shape" cx="400" cy="400" r="150"/>
+  <path class="shape" d="M120 1000c0-190 125-330 280-330s280 140 280 330z"/>
+  <text class="label" x="400" y="140" text-anchor="middle" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="32" letter-spacing="2">PORTRAIT</text>
+</svg>

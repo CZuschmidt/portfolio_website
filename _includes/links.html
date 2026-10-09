@@ -1,0 +1,20 @@
+{%- comment -%}
+  Renders the contact/profile links from _config.yml. Links with an empty url
+  are skipped, so nothing on the page points to "#" or a missing page.
+{%- endcomment -%}
+<ul class="link-list">
+  {%- for link in site.links -%}
+    {%- if link.url and link.url != "" -%}
+      {%- assign is_external = false -%}
+      {%- if link.url contains "://" -%}{%- assign is_external = true -%}{%- endif -%}
+      {%- if link.url contains "mailto:" -%}
+        {%- assign href = link.url -%}
+      {%- elsif is_external -%}
+        {%- assign href = link.url -%}
+      {%- else -%}
+        {%- assign href = link.url | relative_url -%}
+      {%- endif %}
+    <li><a href="{{ href }}"{% if is_external %} rel="noopener"{% endif %}>{{ link.label }}{% if is_external %}{% include icon-external.html %}{% endif %}</a></li>
+    {%- endif -%}
+  {%- endfor %}
+</ul>

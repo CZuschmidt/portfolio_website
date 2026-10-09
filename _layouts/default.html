@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="{{ site.lang | default: 'en' }}">
+<head>
+{% include head.html %}
+</head>
+<body id="top">
+{% include header.html %}
+<main id="main" tabindex="-1">
+{{ content }}
+</main>
+{% include footer.html %}
+
+<dialog class="lightbox" aria-label="Image viewer">
+  <div class="lightbox__frame">
+    <button class="lightbox__close" type="button">Close</button>
+    <p class="lightbox__status" role="status">Loading image…</p>
+    <img class="lightbox__img" alt="">
+    <p class="lightbox__caption"></p>
+  </div>
+</dialog>
+</body>
+</html>
