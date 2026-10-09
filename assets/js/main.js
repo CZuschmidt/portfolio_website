@@ -78,7 +78,7 @@
     var step = 0;
     entries.forEach(function (entry) {
       if (!entry.isIntersecting) return;
-      entry.target.style.transitionDelay = Math.min(step++, 3) * 90 + "ms";
+      entry.target.style.transitionDelay = Math.min(step++, 3) * 120 + "ms";
       entry.target.classList.remove("is-pending");
       observer.unobserve(entry.target);
     });
@@ -88,6 +88,21 @@
     if (el.getBoundingClientRect().top < window.innerHeight) return;
     el.classList.add("reveal", "is-pending");
     observer.observe(el);
+  });
+
+  // Orange dash on each section divider draws in when the section arrives.
+  var lineObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.remove("line-pending");
+      lineObserver.unobserve(entry.target);
+    });
+  }, { rootMargin: "0px 0px -15% 0px" });
+
+  document.querySelectorAll(".section.container").forEach(function (el) {
+    if (el.getBoundingClientRect().top < window.innerHeight) return;
+    el.classList.add("line-pending");
+    lineObserver.observe(el);
   });
 })();
 
@@ -125,4 +140,96 @@
   }, { rootMargin: "-45% 0px -50% 0px" });
 
   sections.forEach(function (s) { observer.observe(s); });
+})();
+
+// Oscilloscope next to the name: a 3:2 Lissajous figure whose phase follows
+// the scroll position. The trace eases toward its target, and three faint
+// copies lag behind it like phosphor afterglow, so fast scrolling leaves a
+// visible trail that settles when scrolling stops. Nothing moves at rest.
+(function () {
+  "use strict";
+
+  var scope = document.querySelector(".scope");
+  if (!scope) return;
+
+  var trace = scope.querySelector(".scope__trace");
+  var trails = Array.prototype.slice.call(scope.querySelectorAll(".scope__trail"));
+  var dot = scope.querySelector(".scope__dot");
+  var readout = scope.querySelector(".scope__phase");
+
+  var A = 3, B = 2;          // frequency ratio X:Y
+  var C = 200, R = 150;      // centre and amplitude in SVG units
+  var STEPS = 240;
+  var START = Math.PI / 2;   // phase at the top of the page
+  var RANGE = 700;           // px of scrolling for one full 360° turn
+  var TAU = Math.PI * 2;
+
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function target() {
+    return START + (window.scrollY / RANGE) * TAU;
+  }
+
+  function point(t, phase) {
+    return [C + R * Math.sin(A * t + phase), C + R * Math.sin(B * t)];
+  }
+
+  function pathFor(phase) {
+    var d = "";
+    for (var i = 0; i <= STEPS; i++) {
+      var p = point((i / STEPS) * TAU, phase);
+      d += (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1);
+    }
+    return d;
+  }
+
+  var phase = target();
+  var lag = trails.map(function () { return phase; });
+
+  function render() {
+    trace.setAttribute("d", pathFor(phase));
+    trails.forEach(function (el, i) {
+      el.setAttribute("d", pathFor(lag[i]));
+    });
+    // the dot rides the trace, its position also set by scroll
+    var p = point(phase * 0.5, phase);
+    dot.setAttribute("cx", p[0].toFixed(1));
+    dot.setAttribute("cy", p[1].toFixed(1));
+    var deg = Math.round((((phase * 180) / Math.PI) % 360 + 360) % 360);
+    readout.textContent = ("00" + deg).slice(-3);
+  }
+
+  render();
+  if (reduceMotion) return;
+
+  var running = false;
+
+  function frame() {
+    var goal = target();
+    phase += (goal - phase) * 0.12;
+    // each afterglow copy follows the one in front of it
+    var lead = phase;
+    for (var i = trails.length - 1; i >= 0; i--) {
+      lag[i] += (lead - lag[i]) * 0.18;
+      lead = lag[i];
+    }
+    render();
+
+    var settled = Math.abs(goal - phase) < 0.0005 &&
+      lag.every(function (v) { return Math.abs(v - phase) < 0.0005; });
+    if (settled) {
+      running = false;
+      return;
+    }
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener("scroll", function () {
+    // only animate while the scope is on screen
+    if (scope.getBoundingClientRect().bottom < 0) return;
+    if (!running) {
+      running = true;
+      requestAnimationFrame(frame);
+    }
+  }, { passive: true });
 })();
