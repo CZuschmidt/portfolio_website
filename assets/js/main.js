@@ -57,12 +57,12 @@
 
 // Fade content up the first time it scrolls into view.
 // Only elements that start below the fold are animated, so nothing visible
-// on load ever flickers. Skipped entirely when the visitor prefers reduced motion.
+// on load ever flickers. Items that arrive together (e.g. a row of cards)
+// appear one after another with a short delay.
 (function () {
   "use strict";
 
   if (!("IntersectionObserver" in window)) return;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   var selector = [
     ".section__label",
@@ -75,8 +75,10 @@
   ].join(",");
 
   var observer = new IntersectionObserver(function (entries) {
+    var step = 0;
     entries.forEach(function (entry) {
       if (!entry.isIntersecting) return;
+      entry.target.style.transitionDelay = Math.min(step++, 3) * 90 + "ms";
       entry.target.classList.remove("is-pending");
       observer.unobserve(entry.target);
     });
