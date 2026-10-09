@@ -123,7 +123,9 @@ main:focus { outline: none; }
    ========================================================================== */
 .site-header {
   background: var(--bg);
+  border-top: 3px solid var(--accent);
   border-bottom: 1px solid var(--line);
+  view-transition-name: site-header;   /* header stays put during page transitions */
 }
 @media (min-width: 640px) {
   .site-header { position: sticky; top: 0; z-index: 10; }
@@ -139,7 +141,7 @@ main:focus { outline: none; }
   padding-block: var(--s1);
 }
 @media (min-width: 640px) {
-  .site-header__inner { padding-block: 0; height: var(--header-h); }
+  .site-header__inner { padding-block: 0; height: calc(var(--header-h) - 3px); }
 }
 
 .site-header__name {
@@ -157,10 +159,14 @@ main:focus { outline: none; }
   font-size: 0.875rem;
   line-height: 1.5rem;
   color: var(--muted);
-  text-decoration: none;
-  transition: color var(--ease);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+  transition: color var(--ease), text-decoration-color var(--ease);
 }
-.site-nav a:hover { color: var(--text); }
+.site-nav a:hover { color: var(--text); text-decoration-color: var(--line); }
+.site-nav a[aria-current] { color: var(--text); text-decoration-color: var(--accent); }
 
 /* ==========================================================================
    Links list (hero + footer)
@@ -248,6 +254,14 @@ main:focus { outline: none; }
   left: var(--gutter);
   right: var(--gutter);
   border-top: 1px solid var(--line);
+}
+.section.container::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: var(--gutter);
+  width: var(--s4);
+  border-top: 3px solid var(--accent);
 }
 
 .section__label {
@@ -428,7 +442,7 @@ main:focus { outline: none; }
   text-decoration: none;
   transition: border-color var(--ease);
 }
-.card__link:hover { border-color: var(--line-strong); }
+.card__link:hover { border-color: var(--accent); }
 .card__link:focus-visible { outline-offset: 4px; }
 .card__media {
   aspect-ratio: 16 / 10;
@@ -489,7 +503,7 @@ main:focus { outline: none; }
 @media (min-width: 640px) {
   .entry__aside { flex-direction: column; }
 }
-.entry__code { color: var(--text); font-weight: 600; }
+.entry__code { color: var(--accent-text); font-weight: 600; }
 .entry__title { font-size: 1.125rem; line-height: 1.75rem; }
 .entry__org {
   display: block;
@@ -658,7 +672,7 @@ main:focus { outline: none; }
   text-decoration: none;
   transition: border-color var(--ease);
 }
-.pager__link:hover { border-color: var(--line-strong); }
+.pager__link:hover { border-color: var(--accent); }
 .pager__link--next { text-align: right; }
 @media (min-width: 640px) {
   .pager__link--next { grid-column: 2; }
@@ -755,6 +769,26 @@ main:focus { outline: none; }
 .not-found h1 { margin-top: var(--s0); font-size: 2rem; line-height: 2.5rem; }
 .not-found p:not(.eyebrow) { margin-top: var(--s2); max-width: 36rem; color: var(--muted); }
 .not-found .link-list { margin-top: var(--s3); }
+
+/* ==========================================================================
+   Motion
+   - Page-to-page: a short cross-fade (browsers without View Transitions
+     simply load the next page as normal).
+   - On scroll: content below the fold fades up once as it comes into view.
+     Content already on screen when the page loads is never animated.
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root) { animation: vt-out 160ms ease-in both; }
+  ::view-transition-new(root) { animation: vt-in 280ms cubic-bezier(0.2, 0, 0, 1) both; }
+
+  .reveal {
+    transition: opacity 500ms cubic-bezier(0.2, 0, 0, 1), transform 500ms cubic-bezier(0.2, 0, 0, 1);
+  }
+  .reveal.is-pending { opacity: 0; transform: translateY(16px); }
+}
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(8px); } }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }
