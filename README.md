@@ -87,8 +87,8 @@ Then open http://localhost:4000/portfolio_website/. Restart the server after edi
 
 These are the rules the site follows. Keep them in mind when you extend it.
 
-- **Colour:** off-white and near-black, with orange as the only accent. Orange is used for small markers, link underlines, focus rings and hover states. Dark mode follows the visitor's system setting.
-- **Type:** IBM Plex Sans for text and IBM Plex Mono for labels and metadata. Headings use weight 600 and body text 400.
+- **Colour:** white background and near-black text, with orange as the only accent. Orange is used for link underlines, focus rings and hover states.
+- **Type:** Source Serif 4 for headings and Source Sans 3 for text and labels. Headings use weight 600 and body text 400.
 - **Spacing:** an 8px scale (`--s0` … `--s6` in `main.css`). Use these variables instead of new pixel values.
 - **Shape:** a single 4px radius everywhere, 1px borders, and no drop shadows.
 - **Motion:** hover states only change colour, over 150ms. Nothing moves or scales, and transitions are disabled for visitors who prefer reduced motion.

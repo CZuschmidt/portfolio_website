@@ -4,18 +4,19 @@
    One radius, one border style, no drop shadows.
    ========================================================================== */
 :root {
-  --bg: #fafaf7;
+  --bg: #ffffff;
   --surface: #ffffff;
   --text: #111111;
-  --muted: #5a5a57;
-  --line: #e2e0da;
+  --muted: #555555;
+  --line: #e5e5e5;
   --line-strong: #111111;
-  --accent: #ea580c;        /* fills, markers, focus rings */
-  --accent-text: #b8410a;   /* orange text on light backgrounds (AA contrast) */
-  --placeholder: #ecebe6;
+  --accent: #ea580c;        /* underlines, focus rings */
+  --accent-text: #b8410a;   /* orange text on white (AA contrast) */
+  --placeholder: #f2f2f2;
 
-  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;   /* headings */
+  --font-sans: "Source Sans 3", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;  /* text, labels */
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;  /* code only */
 
   --s-1: 4px;
   --s0: 8px;
@@ -32,20 +33,6 @@
   --label-col: 200px;
   --header-h: 64px;
   --ease: 150ms ease;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #111111;
-    --surface: #171717;
-    --text: #ededea;
-    --muted: #a3a29d;
-    --line: #2b2b29;
-    --line-strong: #ededea;
-    --accent: #f97316;
-    --accent-text: #fb8a3c;
-    --placeholder: #1e1e1c;
-  }
 }
 
 @media (min-width: 640px) { :root { --gutter: 24px; } }
@@ -74,14 +61,14 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
-  font-size: 1rem;
-  line-height: 1.5;
+  font-size: 1.0625rem;
+  line-height: 1.625rem;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4 { margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+h1, h2, h3, h4 { margin: 0; font-family: var(--font-serif); font-weight: 600; letter-spacing: -0.005em; }
 p, ul, ol, dl, dd, figure { margin: 0; }
 ul, ol { padding: 0; }
 img, svg { display: block; max-width: 100%; }
@@ -111,8 +98,8 @@ main:focus { outline: none; }
 .muted { color: var(--muted); }
 
 .eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
   line-height: 1.5rem;
   color: var(--muted);
 }
@@ -166,8 +153,8 @@ main:focus { outline: none; }
   list-style: none;
 }
 .site-nav a {
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
   line-height: 1.5rem;
   color: var(--muted);
   text-decoration: none;
@@ -188,8 +175,8 @@ main:focus { outline: none; }
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
   line-height: 1.5rem;
   text-decoration: underline;
   text-decoration-color: var(--accent);
@@ -229,19 +216,10 @@ main:focus { outline: none; }
   .hero__intro { font-size: 1.25rem; line-height: 2rem; }
 }
 .hero__status {
-  display: flex;
-  align-items: center;
-  gap: var(--s0);
   margin-top: var(--s2);
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
   line-height: 1.5rem;
-}
-.dot {
-  width: 8px;
-  height: 8px;
-  flex: none;
-  background: var(--accent);
 }
 .hero .link-list { margin-top: var(--s3); }
 
@@ -273,23 +251,13 @@ main:focus { outline: none; }
 }
 
 .section__label {
-  display: flex;
-  align-items: center;
-  gap: var(--s0);
   align-self: start;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.8125rem;
   line-height: 1.5rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-}
-h2.section__label::before {
-  content: "";
-  width: 8px;
-  height: 8px;
-  flex: none;
-  background: var(--accent);
 }
 .section__body { min-width: 0; }
 
@@ -366,9 +334,9 @@ h2.section__label::before {
   white-space: nowrap;
 }
 .prose th {
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  font-weight: 500;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
   color: var(--muted);
   border-bottom-color: var(--line-strong);
 }
@@ -409,8 +377,8 @@ h2.section__label::before {
   .skills__row { grid-template-columns: 176px minmax(0, 1fr); gap: var(--s2); }
 }
 .skills dt {
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
   line-height: 1.5rem;
   color: var(--muted);
 }
@@ -429,8 +397,8 @@ h2.section__label::before {
   padding: 2px var(--s0);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
   line-height: 1.125rem;
   color: var(--muted);
   white-space: nowrap;
@@ -475,8 +443,8 @@ h2.section__label::before {
   padding: var(--s2);
 }
 .card__meta {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
   line-height: 1.5rem;
   color: var(--muted);
 }
@@ -513,18 +481,19 @@ h2.section__label::before {
   display: flex;
   flex-wrap: wrap;
   gap: 0 var(--s1);
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
   line-height: 1.75rem;
   color: var(--muted);
 }
 @media (min-width: 640px) {
   .entry__aside { flex-direction: column; }
 }
-.entry__code { color: var(--text); font-weight: 500; }
+.entry__code { color: var(--text); font-weight: 600; }
 .entry__title { font-size: 1.125rem; line-height: 1.75rem; }
 .entry__org {
   display: block;
+  font-family: var(--font-sans);
   font-weight: 400;
   color: var(--muted);
 }
@@ -548,8 +517,8 @@ h2.section__label::before {
   align-items: center;
   gap: 6px;
   margin-top: var(--s1);
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
   line-height: 1.5rem;
   text-decoration: underline;
   text-decoration-color: var(--accent);
@@ -566,8 +535,8 @@ h2.section__label::before {
   display: inline-flex;
   align-items: center;
   gap: var(--s0);
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
   line-height: 1.5rem;
   color: var(--muted);
   text-decoration: none;
@@ -607,8 +576,8 @@ h2.section__label::before {
 .project__hero figcaption,
 .figure figcaption {
   margin-top: var(--s0);
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
   line-height: 1.5rem;
   color: var(--muted);
 }
@@ -627,11 +596,11 @@ h2.section__label::before {
   .project__meta dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 .project__meta dt {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
   line-height: 1.5rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -698,8 +667,8 @@ h2.section__label::before {
   display: inline-flex;
   align-items: center;
   gap: var(--s0);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
   line-height: 1.5rem;
   color: var(--muted);
 }
@@ -721,8 +690,8 @@ h2.section__label::before {
 }
 .site-footer__copy,
 .site-footer__top {
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
   line-height: 1.5rem;
   color: var(--muted);
 }
@@ -755,8 +724,8 @@ h2.section__label::before {
   color: var(--text);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
   line-height: 1.5rem;
   cursor: pointer;
   transition: border-color var(--ease);
@@ -769,8 +738,8 @@ h2.section__label::before {
 }
 .lightbox__status,
 .lightbox__caption {
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
   line-height: 1.5rem;
   color: var(--muted);
 }
