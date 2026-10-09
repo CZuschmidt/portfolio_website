@@ -229,6 +229,57 @@ main:focus { outline: none; }
 }
 .hero .link-list { margin-top: var(--s3); }
 
+/* Hero layout: text on the left, oscilloscope on the right */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s5);
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .hero { grid-template-columns: minmax(0, 1fr) 360px; gap: var(--s4); }
+}
+@media (min-width: 1024px) {
+  .hero { grid-template-columns: minmax(0, 1fr) 400px; }
+}
+
+/* Oscilloscope graphic */
+.scope { width: 100%; max-width: 400px; }
+@media (max-width: 899px) { .scope { max-width: 320px; } }
+.scope__screen {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.scope__grid path { stroke: #f0f0f0; stroke-width: 1; fill: none; }
+.scope__axes path { stroke: #dddddd; stroke-width: 1; fill: none; }
+.scope__trace,
+.scope__trail {
+  fill: none;
+  stroke: var(--accent);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.scope__trace { stroke-width: 2.5; }
+.scope__trail { stroke-width: 2; }
+.scope__trail--1 { opacity: 0.35; }
+.scope__trail--2 { opacity: 0.2; }
+.scope__trail--3 { opacity: 0.1; }
+.scope__dot { fill: var(--text); }
+.scope__readout {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--s0);
+  font-size: 0.8125rem;
+  line-height: 1.5rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
 /* ==========================================================================
    Sections — label column + content column on wide screens.
    ========================================================================== */
@@ -780,25 +831,39 @@ main:focus { outline: none; }
    - Visitors who ask their OS for reduced motion get plain fades only.
    ========================================================================== */
 .reveal {
-  transition: opacity 600ms cubic-bezier(0.2, 0, 0, 1), transform 600ms cubic-bezier(0.2, 0, 0, 1);
+  transition: opacity 800ms cubic-bezier(0.2, 0, 0, 1), transform 800ms cubic-bezier(0.2, 0, 0, 1);
 }
-.reveal.is-pending { opacity: 0; transform: translateY(24px); }
+.reveal.is-pending { opacity: 0; transform: translateY(48px); }
 
 @media (prefers-reduced-motion: no-preference) {
   @view-transition { navigation: auto; }
   ::view-transition-old(root) { animation: vt-out 160ms ease-in both; }
   ::view-transition-new(root) { animation: vt-in 320ms cubic-bezier(0.2, 0, 0, 1) both; }
 
-  .hero > *,
+  .hero__text > *,
   .project__header,
   .project__hero {
-    animation: rise 700ms cubic-bezier(0.2, 0, 0, 1) both;
+    animation: rise 800ms cubic-bezier(0.2, 0, 0, 1) both;
   }
-  .hero > :nth-child(2), .project__hero { animation-delay: 80ms; }
-  .hero > :nth-child(3) { animation-delay: 160ms; }
-  .hero > :nth-child(n+4) { animation-delay: 240ms; }
+  .hero__text > :nth-child(2), .project__hero { animation-delay: 100ms; }
+  .hero__text > :nth-child(3) { animation-delay: 200ms; }
+  .hero__text > :nth-child(n+4) { animation-delay: 300ms; }
+
+  /* the scope fades in, then the trace draws itself */
+  .scope { animation: fade 800ms 200ms ease both; }
+  .scope__trace {
+    stroke-dasharray: 1;
+    animation: draw 1600ms 400ms cubic-bezier(0.65, 0, 0.35, 1) both;
+  }
+  .scope__trail, .scope__dot { animation: fade 600ms 1600ms ease both; }
+
+  /* section dividers: the orange dash draws in when the section arrives */
+  .section.container::after { transition: width 900ms cubic-bezier(0.2, 0, 0, 1) 150ms; }
+  .section.container.line-pending::after { width: 0; }
 }
-@keyframes rise { from { opacity: 0; transform: translateY(16px); } }
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } }
+@keyframes fade { from { opacity: 0; } }
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @keyframes vt-out { to { opacity: 0; } }
 @keyframes vt-in { from { opacity: 0; transform: translateY(12px); } }
 

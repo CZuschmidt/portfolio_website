@@ -1,0 +1,35 @@
+{%- comment -%}
+  Decorative oscilloscope next to the name. The orange trace is a Lissajous
+  figure (x = sin(3t + φ), y = sin(2t)); scrolling the page changes φ.
+  Drawn by assets/js/main.js. To remove it, delete the include line in
+  _layouts/home.html.
+{%- endcomment -%}
+<figure class="scope" aria-hidden="true">
+  <svg class="scope__screen" viewBox="0 0 400 400" focusable="false">
+    <g class="scope__grid">
+      {%- for i in (1..7) %}
+      {%- assign p = i | times: 50 %}
+      <path d="M{{ p }} 0V400M0 {{ p }}H400"/>
+      {%- endfor %}
+    </g>
+    <g class="scope__axes">
+      <path d="M200 0V400M0 200H400"/>
+      {%- for i in (1..39) %}
+      {%- assign p = i | times: 10 %}
+      {%- assign len = 3 -%}
+      {%- assign m = i | modulo: 5 -%}
+      {%- if m == 0 %}{% assign len = 6 %}{% endif %}
+      <path d="M{{ p }} {{ 200 | minus: len }}V{{ 200 | plus: len }}M{{ 200 | minus: len }} {{ p }}H{{ 200 | plus: len }}"/>
+      {%- endfor %}
+    </g>
+    <path class="scope__trail scope__trail--3" d=""/>
+    <path class="scope__trail scope__trail--2" d=""/>
+    <path class="scope__trail scope__trail--1" d=""/>
+    <path class="scope__trace" d="" pathLength="1"/>
+    <circle class="scope__dot" r="5" cx="200" cy="200"/>
+  </svg>
+  <figcaption class="scope__readout">
+    <span>X:Y&nbsp;3:2</span>
+    <span>φ&nbsp;<span class="scope__phase">090</span>°</span>
+  </figcaption>
+</figure>
