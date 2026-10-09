@@ -54,3 +54,73 @@
     if (opener) opener.focus();
   });
 })();
+
+// Fade content up the first time it scrolls into view.
+// Only elements that start below the fold are animated, so nothing visible
+// on load ever flickers. Skipped entirely when the visitor prefers reduced motion.
+(function () {
+  "use strict";
+
+  if (!("IntersectionObserver" in window)) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  var selector = [
+    ".section__label",
+    ".about",
+    ".skills",
+    ".card",
+    ".entry",
+    ".prose .figure",
+    ".pager"
+  ].join(",");
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.remove("is-pending");
+      observer.unobserve(entry.target);
+    });
+  }, { rootMargin: "0px 0px -10% 0px" });
+
+  document.querySelectorAll(selector).forEach(function (el) {
+    if (el.getBoundingClientRect().top < window.innerHeight) return;
+    el.classList.add("reveal", "is-pending");
+    observer.observe(el);
+  });
+})();
+
+// Underline the nav link for the section currently in the middle of the screen.
+(function () {
+  "use strict";
+
+  if (!("IntersectionObserver" in window)) return;
+
+  var links = Array.prototype.filter.call(
+    document.querySelectorAll(".site-nav a"),
+    function (a) { return a.pathname === location.pathname && a.hash; }
+  );
+  var sections = links
+    .map(function (a) { return document.getElementById(a.hash.slice(1)); })
+    .filter(Boolean);
+  if (!sections.length) return;
+
+  var visible = new Set();
+
+  function update() {
+    var current = sections.filter(function (s) { return visible.has(s); })[0];
+    links.forEach(function (a) {
+      if (current && a.hash === "#" + current.id) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+  }
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) visible.add(entry.target);
+      else visible.delete(entry.target);
+    });
+    update();
+  }, { rootMargin: "-45% 0px -50% 0px" });
+
+  sections.forEach(function (s) { observer.observe(s); });
+})();
