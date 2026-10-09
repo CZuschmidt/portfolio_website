@@ -1,0 +1,29 @@
+{%- assign p = include.project -%}
+<li class="card">
+  <a class="card__link" href="{{ p.url | relative_url }}">
+    <div class="card__media">
+      <img src="{{ p.image | default: '/assets/img/placeholder.svg' | relative_url }}" alt="{{ p.image_alt | default: '' | escape }}" loading="lazy" decoding="async" width="1600" height="1000">
+    </div>
+    <div class="card__body">
+      <p class="card__meta">
+        {%- if p.date %}<time datetime="{{ p.date | date: '%Y-%m' }}">{{ p.date | date: "%b %Y" }}</time>{% endif -%}
+        {%- if p.date and p.category %} · {% endif -%}
+        {%- if p.category %}{{ p.category }}{% endif -%}
+      </p>
+      <h3 class="card__title">{{ p.title }}</h3>
+      {%- if p.summary %}
+      <p class="card__summary">{{ p.summary }}</p>
+      {%- endif %}
+      {%- if p.skills.size > 0 %}
+      <ul class="tags" aria-label="Skills">
+        {%- for skill in p.skills limit: 4 %}
+        <li>{{ skill }}</li>
+        {%- endfor %}
+        {%- if p.skills.size > 4 %}
+        <li>+{{ p.skills.size | minus: 4 }}</li>
+        {%- endif %}
+      </ul>
+      {%- endif %}
+    </div>
+  </a>
+</li>

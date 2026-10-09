@@ -1,0 +1,17 @@
+# =============================================================================
+#  SKILLS — shown as a short table under your About text.
+#
+#  HOW TO EDIT
+#    - Each entry is one row: a `group` name and a list of `items`.
+#    - Add, remove or reorder rows freely.
+#    - To hide the table completely, delete every entry and leave just:  []
+# =============================================================================
+
+- group: "Hardware"
+  items: ["Placeholder: e.g. Analog circuit design", "PCB layout", "Lab instruments"]
+
+- group: "Software"
+  items: ["Placeholder: e.g. C/C++", "Python", "MATLAB"]
+
+- group: "Tools"
+  items: ["Placeholder: e.g. KiCad", "LTspice", "Vivado"]

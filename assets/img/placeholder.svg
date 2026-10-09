@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <style>
+    .bg { fill: #ecebe6; }
+    .grid { stroke: #dcdad3; }
+    .frame { stroke: #c9c6bd; }
+    .label { fill: #77756e; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1e1e1c; }
+      .grid { stroke: #262624; }
+      .frame { stroke: #3a3a37; }
+      .label { fill: #8c8b86; }
+    }
+  </style>
+  <defs>
+    <pattern id="g" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path class="grid" d="M80 0H0V80" fill="none" stroke-width="2"/>
+    </pattern>
+  </defs>
+  <rect class="bg" width="1600" height="1000"/>
+  <rect width="1600" height="1000" fill="url(#g)"/>
+  <rect class="frame" x="640" y="400" width="320" height="200" fill="none" stroke-width="3"/>
+  <path class="frame" d="M640 600 740 500 820 570 870 530 960 600" fill="none" stroke-width="3"/>
+  <circle class="frame" cx="890" cy="450" r="16" fill="none" stroke-width="3"/>
+  <text class="label" x="800" y="660" text-anchor="middle" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="28" letter-spacing="2">IMAGE PLACEHOLDER</text>
+</svg>

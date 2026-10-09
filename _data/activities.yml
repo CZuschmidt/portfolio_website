@@ -1,0 +1,50 @@
+# =============================================================================
+#  ACTIVITIES — clubs, teams, research, jobs, teaching, volunteering.
+#  Shown in the "Activities" section, in the order listed here.
+#
+#  HOW TO ADD AN ACTIVITY
+#    1. Copy the block between the two lines below.
+#    2. Paste it where you want the activity to appear (top = first).
+#    3. Fill in the fields. Only `role` and `dates` are required; delete any
+#       optional line you don't need.
+#
+#  ---- copy from here --------------------------------------------------------
+#  - role: "Your role"
+#    organization: "Organization name"           # optional
+#    dates: "Sep 2024 – Present"
+#    location: "City, ST"                        # optional
+#    description: >-                             # optional, Markdown allowed
+#      One or two sentences about the group and what you do there.
+#    highlights:                                 # optional bullet points
+#      - "Something specific you did, with a number if you have one."
+#      - "Another specific contribution."
+#    link: "https://example.org"                 # optional (or a project page, e.g. "/projects/my-project/")
+#    link_label: "Team website"                  # optional text for the link
+#  ---- to here ---------------------------------------------------------------
+#
+#  Indentation matters in YAML: keep two spaces before every field after the
+#  first, and four spaces before each highlight, exactly as in the examples.
+# =============================================================================
+
+- role: "Placeholder: Electrical Lead"
+  organization: "Placeholder: Student Engineering Team"
+  dates: "Month 20XX – Present"
+  description: >-
+    Placeholder description of the team and your responsibilities on it.
+  highlights:
+    - "Placeholder: a specific contribution, ideally with a measurable result."
+    - "Placeholder: another specific contribution."
+  link: "/projects/example-motor-controller/"
+  link_label: "Related project"
+
+- role: "Placeholder: Undergraduate Researcher"
+  organization: "Placeholder: Lab Name"
+  dates: "Month 20XX – Month 20XX"
+  description: >-
+    Placeholder description of the research question and what you worked on.
+
+- role: "Placeholder: Teaching Assistant"
+  organization: "Placeholder: Course Name"
+  dates: "Term 20XX"
+  highlights:
+    - "Placeholder: what you taught or supported, and for how many students."

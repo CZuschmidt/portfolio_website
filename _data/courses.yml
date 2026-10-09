@@ -1,0 +1,45 @@
+# =============================================================================
+#  COURSES — shown in the "Courses" section, in the order listed here.
+#
+#  HOW TO ADD A COURSE
+#    1. Copy the block between the two lines below.
+#    2. Paste it where you want the course to appear (top = first).
+#    3. Fill in the fields. Only `code` and `title` are required; delete any
+#       optional line you don't need.
+#
+#  ---- copy from here --------------------------------------------------------
+#  - code: "ESE 0000"                  # course number
+#    title: "Course Title"
+#    term: "Fall 2025"                 # optional
+#    description: >-                   # optional, Markdown allowed
+#      What the course covered and what you built or learned in it.
+#    topics: ["Topic", "Topic"]        # optional, shown as small tags
+#    project: "/projects/project-file-name/"   # optional, links to a project page
+#  ---- to here ---------------------------------------------------------------
+#
+#  Indentation matters in YAML: keep two spaces before every field after the
+#  first, exactly as in the examples.
+# =============================================================================
+
+- code: "ESE 0000"
+  title: "Placeholder: Circuits and Systems"
+  term: "Term 20XX"
+  description: >-
+    Placeholder description. Summarize what the course covered and the most
+    substantial lab or project you completed in it.
+  topics: ["Topic", "Topic", "Topic"]
+  project: "/projects/example-power-supply/"
+
+- code: "ESE 0000"
+  title: "Placeholder: Digital Design"
+  term: "Term 20XX"
+  description: >-
+    Placeholder description. One to three sentences is plenty.
+  topics: ["Topic", "Topic"]
+
+- code: "ESE 0000"
+  title: "Placeholder: Signals and Systems"
+  term: "Term 20XX"
+  description: >-
+    Placeholder description. Courses can also be listed with just a code,
+    title and term.

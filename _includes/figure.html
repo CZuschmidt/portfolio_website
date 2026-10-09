@@ -1,0 +1,17 @@
+{%- comment -%}
+  Image with an optional caption. Clicking the image opens a larger view.
+
+  Usage inside a project's Markdown:
+    {% include figure.html src="/assets/img/projects/my-project/board.jpg"
+       alt="Describe what is in the image"
+       caption="Optional caption shown under the image." %}
+{%- endcomment -%}
+{%- assign fig_src = include.src | relative_url -%}
+<figure class="figure">
+  <a class="figure__link" href="{{ fig_src }}" data-zoom{% if include.caption %} data-caption="{{ include.caption | escape }}"{% endif %}>
+    <img src="{{ fig_src }}" alt="{{ include.alt | default: include.caption | escape }}" loading="lazy" decoding="async">
+  </a>
+  {%- if include.caption %}
+  <figcaption>{{ include.caption }}</figcaption>
+  {%- endif %}
+</figure>
