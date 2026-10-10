@@ -275,9 +275,9 @@ main:focus { outline: none; }
     mask-image: linear-gradient(to right, transparent, #000 40%);
   }
 }
-.hero__gridline { stroke: #ececec; stroke-width: 1; stroke-dasharray: 2 4; }
-.hero__axisline { stroke: #d4d4d4; stroke-width: 1; }
-.hero__tick { stroke: #cccccc; stroke-width: 1; }
+.hero__gridline { stroke: #d9d9d9; stroke-width: 1; stroke-dasharray: 3 4; }
+.hero__axisline { stroke: #bfbfbf; stroke-width: 1; }
+.hero__tick { stroke: #b3b3b3; stroke-width: 1; }
 .hero__label,
 .hero__readout {
   font-family: var(--font-sans);
@@ -288,7 +288,7 @@ main:focus { outline: none; }
   stroke-width: 4px;
   stroke-linejoin: round;
 }
-.hero__label { fill: #8f8f8f; font-size: 12px; }
+.hero__label { fill: #7a7a7a; font-size: 12px; }
 .hero__readout { fill: var(--muted); font-size: 13px; }
 .hero__trace {
   fill: none;
