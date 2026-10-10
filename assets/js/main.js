@@ -143,7 +143,7 @@
 })();
 
 // Sine wave behind the intro, plotted on faint scope-style axes. The screen
-// spans 5 ms; scrolling raises the frequency from 400 Hz to 1.8 kHz. The SVG
+// spans 5 ms; scrolling raises the frequency from 400 Hz to 2.4 kHz. The SVG
 // is drawn in real pixels (re-laid out on resize) so labels never stretch.
 // The wave eases toward its target and only redraws while the hero is on
 // screen and the wave is still changing.
@@ -161,8 +161,8 @@
   var text = document.querySelector(".hero__text");
 
   var SPAN_MS = 5;                 // time across the full width
-  var F_MIN = 400, F_MAX = 1800;   // Hz: top of page / fully scrolled
-  var RANGE = 600;                 // px of scrolling from F_MIN to F_MAX
+  var F_MIN = 400, F_MAX = 2400;   // Hz: top of page / fully scrolled
+  var RANGE = 450;                 // px of scrolling from F_MIN to F_MAX
   var ANCHOR = 0.75;               // phase is pinned at 75% of the width
 
   var w = 0, h = 0, mid = 0, amp = 0, right = 0;
@@ -180,7 +180,7 @@
     h = box.height;
     if (!w || !h) return;
     mid = Math.round(h * 0.5) + 0.5;
-    amp = Math.round(h * 0.3);
+    amp = Math.round(Math.min(h * 0.3, 180));
     // right-hand labels line up with the right edge of the page content
     var pad = parseFloat(getComputedStyle(text).paddingRight) || 0;
     right = Math.min(w - 16, text.getBoundingClientRect().right - pad - box.left);
@@ -254,7 +254,7 @@
 
   function frame() {
     var goal = target();
-    freq += (goal - freq) * 0.2;
+    freq += (goal - freq) * 0.25;
     if (Math.abs(goal - freq) < 0.5) freq = goal;
     render(freq);
     if (freq === goal || !onScreen) {
