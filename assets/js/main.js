@@ -142,46 +142,41 @@
   sections.forEach(function (s) { observer.observe(s); });
 })();
 
-// Oscilloscope next to the name: a sine wave whose frequency rises as the
-// page scrolls, triggered at the centre of the screen so it compresses
-// symmetrically. The frequency eases toward its target for a smooth feel,
-// and work only happens while the scope is on screen and still changing.
+// Sine wave behind the intro. Its frequency rises as the page scrolls; the
+// compression is anchored on the right-hand side, where the wave is fully
+// visible. It eases toward its target and only redraws while the hero is on
+// screen and the wave is still changing.
 (function () {
   "use strict";
 
-  var scope = document.querySelector(".scope");
-  if (!scope) return;
+  var wave = document.querySelector(".hero__wave");
+  if (!wave) return;
 
-  var trace = scope.querySelector(".scope__trace");
-  var readout = scope.querySelector(".scope__freq");
+  var trace = wave.querySelector(".hero__trace");
 
-  var W = 400, MID = 160, AMP = 100;  // screen size and amplitude (SVG units)
-  var SPAN = 5;                       // ms across the screen (10 div × 0.5 ms)
-  var F_MIN = 400, F_MAX = 2000;      // Hz at the top of the page / fully scrolled
-  var RANGE = 600;                    // px of scrolling from F_MIN to F_MAX
-  var STEPS = 200;
+  var W = 1000, MID = 200, AMP = 120;  // viewBox units
+  var ANCHOR = 0.75;                   // phase is pinned at 75% of the width
+  var C_MIN = 2, C_MAX = 9;            // cycles across the width: top / scrolled
+  var RANGE = 600;                     // px of scrolling from C_MIN to C_MAX
+  var STEPS = 500;
 
   function target() {
     var k = Math.min(window.scrollY / RANGE, 1);
-    return F_MIN + (F_MAX - F_MIN) * k;
+    return C_MIN + (C_MAX - C_MIN) * k;
   }
 
-  function render(f) {
+  function render(cycles) {
     var d = "";
     for (var i = 0; i <= STEPS; i++) {
-      var x = (i / STEPS) * W;
-      var t = (x / W - 0.5) * SPAN / 1000;          // seconds from centre
-      var y = MID - AMP * Math.sin(2 * Math.PI * f * t);
-      d += (i ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1);
+      var u = i / STEPS;
+      var y = MID - AMP * Math.sin(2 * Math.PI * cycles * (u - ANCHOR));
+      d += (i ? "L" : "M") + (u * W).toFixed(1) + " " + y.toFixed(1);
     }
     trace.setAttribute("d", d);
-    readout.textContent = f < 1000
-      ? Math.round(f) + "\u00a0Hz"
-      : (f / 1000).toFixed(2) + "\u00a0kHz";
   }
 
-  var freq = target();
-  render(freq);
+  var cycles = target();
+  render(cycles);
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   var onScreen = true;
@@ -191,15 +186,15 @@
     new IntersectionObserver(function (entries) {
       onScreen = entries[0].isIntersecting;
       if (onScreen) start();
-    }).observe(scope);
+    }).observe(wave);
   }
 
   function frame() {
     var goal = target();
-    freq += (goal - freq) * 0.2;
-    if (Math.abs(goal - freq) < 0.5) freq = goal;
-    render(freq);
-    if (freq === goal || !onScreen) {
+    cycles += (goal - cycles) * 0.2;
+    if (Math.abs(goal - cycles) < 0.001) cycles = goal;
+    render(cycles);
+    if (cycles === goal || !onScreen) {
       running = false;
       return;
     }
