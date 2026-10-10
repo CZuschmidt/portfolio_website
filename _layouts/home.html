@@ -12,8 +12,8 @@ layout: default
 
 <section class="hero container" aria-labelledby="hero-title">
   <div class="hero__text">
-    <p class="eyebrow">{{ site.author.headline }}</p>
     <h1 id="hero-title" class="hero__title">{{ site.author.name }}</h1>
+    <p class="hero__headline">{{ site.author.headline }}</p>
     <p class="hero__intro">{{ site.author.intro }}</p>
     {%- if site.author.status and site.author.status != "" %}
     <p class="hero__status">{{ site.author.status }}</p>

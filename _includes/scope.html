@@ -1,35 +1,36 @@
 {%- comment -%}
-  Decorative oscilloscope next to the name. The orange trace is a Lissajous
-  figure (x = sin(3t + φ), y = sin(2t)); scrolling the page changes φ.
+  Decorative oscilloscope next to the name: a sine wave whose frequency
+  rises as the page scrolls. 10 × 8 divisions, like a real scope screen.
   Drawn by assets/js/main.js. To remove it, delete the include line in
   _layouts/home.html.
 {%- endcomment -%}
 <figure class="scope" aria-hidden="true">
-  <svg class="scope__screen" viewBox="0 0 400 400" focusable="false">
+  <svg class="scope__screen" viewBox="0 0 400 320" focusable="false">
     <g class="scope__grid">
+      {%- for i in (1..9) %}
+      {%- assign x = i | times: 40 %}
+      <path d="M{{ x }} 0V320"/>
+      {%- endfor %}
       {%- for i in (1..7) %}
-      {%- assign p = i | times: 50 %}
-      <path d="M{{ p }} 0V400M0 {{ p }}H400"/>
+      {%- assign y = i | times: 40 %}
+      <path d="M0 {{ y }}H400"/>
       {%- endfor %}
     </g>
     <g class="scope__axes">
-      <path d="M200 0V400M0 200H400"/>
+      <path d="M200 0V320M0 160H400"/>
+      {%- for i in (1..49) %}
+      {%- assign x = i | times: 8 %}
+      <path d="M{{ x }} 157V163"/>
+      {%- endfor %}
       {%- for i in (1..39) %}
-      {%- assign p = i | times: 10 %}
-      {%- assign len = 3 -%}
-      {%- assign m = i | modulo: 5 -%}
-      {%- if m == 0 %}{% assign len = 6 %}{% endif %}
-      <path d="M{{ p }} {{ 200 | minus: len }}V{{ 200 | plus: len }}M{{ 200 | minus: len }} {{ p }}H{{ 200 | plus: len }}"/>
+      {%- assign y = i | times: 8 %}
+      <path d="M197 {{ y }}H203"/>
       {%- endfor %}
     </g>
-    <path class="scope__trail scope__trail--3" d=""/>
-    <path class="scope__trail scope__trail--2" d=""/>
-    <path class="scope__trail scope__trail--1" d=""/>
-    <path class="scope__trace" d="" pathLength="1"/>
-    <circle class="scope__dot" r="5" cx="200" cy="200"/>
+    <path class="scope__trace" d="M0 160H400" pathLength="1"/>
   </svg>
   <figcaption class="scope__readout">
-    <span>X:Y&nbsp;3:2</span>
-    <span>φ&nbsp;<span class="scope__phase">090</span>°</span>
+    <span>CH1&nbsp;&nbsp;1&nbsp;V/div&nbsp;&nbsp;0.5&nbsp;ms/div</span>
+    <span>f&nbsp;<span class="scope__freq">400&nbsp;Hz</span></span>
   </figcaption>
 </figure>

@@ -78,11 +78,11 @@
     var step = 0;
     entries.forEach(function (entry) {
       if (!entry.isIntersecting) return;
-      entry.target.style.transitionDelay = Math.min(step++, 3) * 120 + "ms";
+      entry.target.style.transitionDelay = Math.min(step++, 3) * 80 + "ms";
       entry.target.classList.remove("is-pending");
       observer.unobserve(entry.target);
     });
-  }, { rootMargin: "0px 0px -10% 0px" });
+  }, { rootMargin: "0px 0px -5% 0px" });
 
   document.querySelectorAll(selector).forEach(function (el) {
     if (el.getBoundingClientRect().top < window.innerHeight) return;
@@ -142,10 +142,10 @@
   sections.forEach(function (s) { observer.observe(s); });
 })();
 
-// Oscilloscope next to the name: a 3:2 Lissajous figure whose phase follows
-// the scroll position. The trace eases toward its target, and three faint
-// copies lag behind it like phosphor afterglow, so fast scrolling leaves a
-// visible trail that settles when scrolling stops. Nothing moves at rest.
+// Oscilloscope next to the name: a sine wave whose frequency rises as the
+// page scrolls, triggered at the centre of the screen so it compresses
+// symmetrically. The frequency eases toward its target for a smooth feel,
+// and work only happens while the scope is on screen and still changing.
 (function () {
   "use strict";
 
@@ -153,83 +153,64 @@
   if (!scope) return;
 
   var trace = scope.querySelector(".scope__trace");
-  var trails = Array.prototype.slice.call(scope.querySelectorAll(".scope__trail"));
-  var dot = scope.querySelector(".scope__dot");
-  var readout = scope.querySelector(".scope__phase");
+  var readout = scope.querySelector(".scope__freq");
 
-  var A = 3, B = 2;          // frequency ratio X:Y
-  var C = 200, R = 150;      // centre and amplitude in SVG units
-  var STEPS = 240;
-  var START = Math.PI / 2;   // phase at the top of the page
-  var RANGE = 700;           // px of scrolling for one full 360° turn
-  var TAU = Math.PI * 2;
-
-  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var W = 400, MID = 160, AMP = 100;  // screen size and amplitude (SVG units)
+  var SPAN = 5;                       // ms across the screen (10 div × 0.5 ms)
+  var F_MIN = 400, F_MAX = 2000;      // Hz at the top of the page / fully scrolled
+  var RANGE = 600;                    // px of scrolling from F_MIN to F_MAX
+  var STEPS = 200;
 
   function target() {
-    return START + (window.scrollY / RANGE) * TAU;
+    var k = Math.min(window.scrollY / RANGE, 1);
+    return F_MIN + (F_MAX - F_MIN) * k;
   }
 
-  function point(t, phase) {
-    return [C + R * Math.sin(A * t + phase), C + R * Math.sin(B * t)];
-  }
-
-  function pathFor(phase) {
+  function render(f) {
     var d = "";
     for (var i = 0; i <= STEPS; i++) {
-      var p = point((i / STEPS) * TAU, phase);
-      d += (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1);
+      var x = (i / STEPS) * W;
+      var t = (x / W - 0.5) * SPAN / 1000;          // seconds from centre
+      var y = MID - AMP * Math.sin(2 * Math.PI * f * t);
+      d += (i ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1);
     }
-    return d;
+    trace.setAttribute("d", d);
+    readout.textContent = f < 1000
+      ? Math.round(f) + "\u00a0Hz"
+      : (f / 1000).toFixed(2) + "\u00a0kHz";
   }
 
-  var phase = target();
-  var lag = trails.map(function () { return phase; });
+  var freq = target();
+  render(freq);
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-  function render() {
-    trace.setAttribute("d", pathFor(phase));
-    trails.forEach(function (el, i) {
-      el.setAttribute("d", pathFor(lag[i]));
-    });
-    // the dot rides the trace, its position also set by scroll
-    var p = point(phase * 0.5, phase);
-    dot.setAttribute("cx", p[0].toFixed(1));
-    dot.setAttribute("cy", p[1].toFixed(1));
-    var deg = Math.round((((phase * 180) / Math.PI) % 360 + 360) % 360);
-    readout.textContent = ("00" + deg).slice(-3);
-  }
-
-  render();
-  if (reduceMotion) return;
-
+  var onScreen = true;
   var running = false;
+
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+      onScreen = entries[0].isIntersecting;
+      if (onScreen) start();
+    }).observe(scope);
+  }
 
   function frame() {
     var goal = target();
-    phase += (goal - phase) * 0.12;
-    // each afterglow copy follows the one in front of it
-    var lead = phase;
-    for (var i = trails.length - 1; i >= 0; i--) {
-      lag[i] += (lead - lag[i]) * 0.18;
-      lead = lag[i];
-    }
-    render();
-
-    var settled = Math.abs(goal - phase) < 0.0005 &&
-      lag.every(function (v) { return Math.abs(v - phase) < 0.0005; });
-    if (settled) {
+    freq += (goal - freq) * 0.2;
+    if (Math.abs(goal - freq) < 0.5) freq = goal;
+    render(freq);
+    if (freq === goal || !onScreen) {
       running = false;
       return;
     }
     requestAnimationFrame(frame);
   }
 
-  window.addEventListener("scroll", function () {
-    // only animate while the scope is on screen
-    if (scope.getBoundingClientRect().bottom < 0) return;
-    if (!running) {
-      running = true;
-      requestAnimationFrame(frame);
-    }
-  }, { passive: true });
+  function start() {
+    if (running || !onScreen) return;
+    running = true;
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener("scroll", start, { passive: true });
 })();
