@@ -203,7 +203,6 @@ main:focus { outline: none; }
   .hero { padding-top: var(--s6); padding-bottom: var(--s6); }
 }
 .hero__title {
-  margin-top: var(--s0);
   font-size: 2.5rem;
   line-height: 3rem;
   letter-spacing: -0.02em;
@@ -211,15 +210,23 @@ main:focus { outline: none; }
 @media (min-width: 640px) {
   .hero__title { font-size: 3.5rem; line-height: 4rem; }
 }
+.hero__headline {
+  margin-top: var(--s0);
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+@media (min-width: 640px) {
+  .hero__headline { font-size: 1.25rem; line-height: 2rem; }
+}
 .hero__intro {
   max-width: 40rem;
   margin-top: var(--s2);
-  font-size: 1.125rem;
+  font-size: 1.0625rem;
   line-height: 1.75rem;
   color: var(--muted);
 }
 @media (min-width: 640px) {
-  .hero__intro { font-size: 1.25rem; line-height: 2rem; }
+  .hero__intro { font-size: 1.125rem; }
 }
 .hero__status {
   margin-top: var(--s2);
@@ -249,7 +256,7 @@ main:focus { outline: none; }
 .scope__screen {
   width: 100%;
   height: auto;
-  aspect-ratio: 1;
+  aspect-ratio: 5 / 4;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -257,19 +264,13 @@ main:focus { outline: none; }
 }
 .scope__grid path { stroke: #f0f0f0; stroke-width: 1; fill: none; }
 .scope__axes path { stroke: #dddddd; stroke-width: 1; fill: none; }
-.scope__trace,
-.scope__trail {
+.scope__trace {
   fill: none;
   stroke: var(--accent);
+  stroke-width: 2.5;
   stroke-linejoin: round;
   stroke-linecap: round;
 }
-.scope__trace { stroke-width: 2.5; }
-.scope__trail { stroke-width: 2; }
-.scope__trail--1 { opacity: 0.35; }
-.scope__trail--2 { opacity: 0.2; }
-.scope__trail--3 { opacity: 0.1; }
-.scope__dot { fill: var(--text); }
 .scope__readout {
   display: flex;
   justify-content: space-between;
@@ -831,9 +832,9 @@ main:focus { outline: none; }
    - Visitors who ask their OS for reduced motion get plain fades only.
    ========================================================================== */
 .reveal {
-  transition: opacity 800ms cubic-bezier(0.2, 0, 0, 1), transform 800ms cubic-bezier(0.2, 0, 0, 1);
+  transition: opacity 700ms cubic-bezier(0.2, 0, 0, 1), transform 700ms cubic-bezier(0.2, 0, 0, 1);
 }
-.reveal.is-pending { opacity: 0; transform: translateY(48px); }
+.reveal.is-pending { opacity: 0; transform: translateY(40px); }
 
 @media (prefers-reduced-motion: no-preference) {
   @view-transition { navigation: auto; }
@@ -855,7 +856,6 @@ main:focus { outline: none; }
     stroke-dasharray: 1;
     animation: draw 1600ms 400ms cubic-bezier(0.65, 0, 0.35, 1) both;
   }
-  .scope__trail, .scope__dot { animation: fade 600ms 1600ms ease both; }
 
   /* section dividers: the orange dash draws in when the section arrives */
   .section.container::after { transition: width 900ms cubic-bezier(0.2, 0, 0, 1) 150ms; }

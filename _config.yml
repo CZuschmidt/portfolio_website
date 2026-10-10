@@ -8,7 +8,7 @@
 # --- Who you are --------------------------------------------------------------
 author:
   name: "Your Name"                       # REPLACE: shown in the header, hero, footer and page titles
-  # One line under your name. Keep it factual: field + school/company.
+  # Shown directly under your name. Keep it factual: field + school/company.
   headline: "Electrical Engineering · Your University"   # REPLACE
   # One or two sentences: what you work on and what you want to do next.
   intro: >-
