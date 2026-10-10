@@ -66,7 +66,7 @@ In `_config.yml`, fill in the `url` for Email (`mailto:you@example.com`), Linked
 1. Merge this branch into `main`.
 2. On GitHub, open **Settings → Pages**.
 3. Under **Build and deployment**, choose **Deploy from a branch**, branch **`main`**, folder **`/ (root)`**, and save.
-4. The site will be at **https://czuschmidt.github.io/portfolio_website/**.
+4. The site will be at **https://czuschmidt.github.io/cz_portfolio/**.
 
 If you rename the repository to `CZuschmidt.github.io`, the site moves to `https://czuschmidt.github.io/`. In that case, set `baseurl: ""` in `_config.yml`.
 
@@ -79,7 +79,7 @@ bundle install
 bundle exec jekyll serve
 ```
 
-Then open http://localhost:4000/portfolio_website/. Restart the server after editing `_config.yml`.
+Then open http://localhost:4000/cz_portfolio/. Restart the server after editing `_config.yml`.
 
 ---
 
