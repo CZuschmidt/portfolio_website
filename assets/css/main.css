@@ -238,7 +238,23 @@ main:focus { outline: none; }
 
 /* Sine wave behind the intro: full width, no frame. A mask fades it out
    toward the text on the left (and toward the bottom on narrow screens). */
-.hero { position: relative; overflow: hidden; }
+/* On first load the hero fills the screen below the header. */
+.hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));
+}
+@media (max-width: 639px) {
+  /* the header wraps to two rows on phones */
+  .hero {
+    min-height: calc(100vh - 96px);
+    min-height: calc(100svh - 96px);
+  }
+}
 .hero__text { position: relative; }
 .hero__wave {
   position: absolute;
