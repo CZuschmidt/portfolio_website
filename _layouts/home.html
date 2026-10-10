@@ -10,8 +10,9 @@ layout: default
     - Activities   → _data/activities.yml
 {%- endcomment -%}
 
-<section class="hero container" aria-labelledby="hero-title">
-  <div class="hero__text">
+<section class="hero" aria-labelledby="hero-title">
+  {% include wave.html %}
+  <div class="container hero__text">
     <h1 id="hero-title" class="hero__title">{{ site.author.name }}</h1>
     <p class="hero__headline">{{ site.author.headline }}</p>
     <p class="hero__intro">{{ site.author.intro }}</p>
@@ -20,7 +21,6 @@ layout: default
     {%- endif %}
     {% include links.html %}
   </div>
-  {% include scope.html %}
 </section>
 
 <section id="about" class="section container" aria-labelledby="about-title">
