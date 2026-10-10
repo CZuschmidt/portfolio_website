@@ -7,11 +7,15 @@
 #    - To hide the table completely, delete every entry and leave just:  []
 # =============================================================================
 
-- group: "Hardware"
-  items: ["Placeholder: e.g. Analog circuit design", "PCB layout", "Lab instruments"]
+- group: "Hardware & Design Tools"
+  items: ["Hardware verification/Debugging", "Schematic analysis", "KiCad", "Altium", 
+          "LTspice", "Lab intrumentation"]
 
 - group: "Software"
-  items: ["Placeholder: e.g. C/C++", "Python", "MATLAB"]
+  items: ["Python", "C", "Verilog", "Java", 'Git/Github']
 
-- group: "Tools"
-  items: ["Placeholder: e.g. KiCad", "LTspice", "Vivado"]
+- group: "Embedded"
+  items: ["STM32/Arduino", "FPGA", "Linux", "FreeRTOS firmware", "TwinCAT"]
+
+- group: "Protocols/Tools"
+  items: ["I2C", "SPI", "Uart", "EtherCat/Ethernet", "LoRa"]
