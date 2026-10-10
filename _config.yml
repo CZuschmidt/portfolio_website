@@ -42,11 +42,11 @@ og_image: "/assets/img/og-image.png"      # 1200×630 image shown when the site 
 lang: "en"
 
 # --- Hosting ------------------------------------------------------------------
-# For a repository named `portfolio_website` the site lives at
-#   https://czuschmidt.github.io/portfolio_website
+# For a repository named `cz_portfolio` the site lives at
+#   https://czuschmidt.github.io/cz_portfolio
 # If you rename the repository to `CZuschmidt.github.io`, set baseurl to "".
 url: "https://czuschmidt.github.io"
-baseurl: "/portfolio_website"
+baseurl: "/cz_portfolio"
 
 # =============================================================================
 #  You normally don't need to change anything below this line.
