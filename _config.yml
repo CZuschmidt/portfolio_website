@@ -7,15 +7,15 @@
 
 # --- Who you are --------------------------------------------------------------
 author:
-  name: "Your Name"                       # REPLACE: shown in the header, hero, footer and page titles
+  name: "Cameron Zuschmidt"                       # REPLACE: shown in the header, hero, footer and page titles
   # Shown directly under your name. Keep it factual: field + school/company.
-  headline: "Electrical Engineering · Your University"   # REPLACE
+  headline: "Electrical Engineering · University of Pennsylvania"   # REPLACE
   # One or two sentences: what you work on and what you want to do next.
   intro: >-
     Placeholder: one or two sentences about the engineering you do, such as
     the circuits, systems and tools you build and what you want to work on next.
   # Optional status line (internship search, graduation date, …). Leave "" to hide.
-  status: "Placeholder: Graduating May 20XX · Open to summer internships"
+  status: "Graduating May 2029 · Seeking summer internships"
   # Portrait shown in the About section. Put your photo in assets/img/ and
   # update the path. Leave "" to hide the photo entirely.
   photo: "/assets/img/placeholder-portrait.svg"
@@ -25,11 +25,11 @@ author:
 # links on the site. Order here = order on the page.
 links:
   - label: "Email"
-    url: ""                               # ADD: e.g. "mailto:you@example.com"
+    url: "czusch26@engineering.upenn.edu"                               # ADD: e.g. "mailto:you@example.com"
   - label: "GitHub"
     url: "https://github.com/CZuschmidt"
   - label: "LinkedIn"
-    url: ""                               # ADD: e.g. "https://www.linkedin.com/in/your-handle/"
+    url: "www.linkedin.com/in/camzus"                               # ADD: e.g. "https://www.linkedin.com/in/your-handle/"
   - label: "Résumé (PDF)"
     url: ""                               # ADD: put the file at assets/files/resume.pdf, then use "/assets/files/resume.pdf"
 
