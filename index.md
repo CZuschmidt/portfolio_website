@@ -8,10 +8,6 @@ layout: home
   Your skills list is in _data/skills.yml.
 {% endcomment %}
 
-Placeholder paragraph. Introduce yourself in a few sentences: your year and
-program, the area of electrical engineering you focus on, and what draws you to it.
+I'm an Electrical Engineering student at the University of Pennsylvania, class of 2029. I've built a variety of engineering experiences through my time on the High-Powered Rocketry team and the High-Altitude Balloon teams, as well as directing the Penn Aerospace Club and working in the Pen Quantum Computing Club. I currently work as a student hardware verification engineer and student researcher as part of a Penn physics instrumentation group. In my free time, I pursue photography and coach/play baseball. 
 
-Placeholder paragraph. Describe the kind of work you like most, for example
-taking a board from schematic to bring-up or writing firmware against a
-datasheet, and what you are looking for next, such as an internship, research
-position or full-time role.
+My primary interests lie in embedded systems and hardware development. I particularly enjoy writing low-level embedded software, such as hardware configuration implemented directly from datasheets. I also enjoy PCB design and completing hardware verification to confirm design requirements. I am currently seeking an internshiop for the 2027 summer in which I can contribute across this full development cycle.

@@ -12,8 +12,8 @@ author:
   headline: "Electrical Engineering · University of Pennsylvania"   # REPLACE
   # One or two sentences: what you work on and what you want to do next.
   intro: >-
-    Placeholder: one or two sentences about the engineering you do, such as
-    the circuits, systems and tools you build and what you want to work on next.
+    Electrical engineering student working for the Penn High-Energy Physics Instrumentation Group, 
+    interested in embedded systems, avionics, and power electronics. 
   # Optional status line (internship search, graduation date, …). Leave "" to hide.
   status: "Graduating May 2029 · Seeking summer internships"
   # Portrait shown in the About section. Put your photo in assets/img/ and
@@ -31,7 +31,7 @@ links:
   - label: "LinkedIn"
     url: "www.linkedin.com/in/camzus"                               # ADD: e.g. "https://www.linkedin.com/in/your-handle/"
   - label: "Résumé (PDF)"
-    url: ""                               # ADD: put the file at assets/files/resume.pdf, then use "/assets/files/resume.pdf"
+    url: "/assets/files/resume.pdf"                               # ADD: put the file at assets/files/resume.pdf, then use "/assets/files/resume.pdf"
 
 # --- SEO / sharing ---------------------------------------------------------------
 title: "Electrical Engineering Portfolio" # Used in the browser tab: "<name> — <title>"
