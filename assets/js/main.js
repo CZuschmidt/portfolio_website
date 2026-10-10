@@ -142,41 +142,104 @@
   sections.forEach(function (s) { observer.observe(s); });
 })();
 
-// Sine wave behind the intro. Its frequency rises as the page scrolls; the
-// compression is anchored on the right-hand side, where the wave is fully
-// visible. It eases toward its target and only redraws while the hero is on
+// Sine wave behind the intro, plotted on faint scope-style axes. The screen
+// spans 5 ms; scrolling raises the frequency from 400 Hz to 1.8 kHz. The SVG
+// is drawn in real pixels (re-laid out on resize) so labels never stretch.
+// The wave eases toward its target and only redraws while the hero is on
 // screen and the wave is still changing.
 (function () {
   "use strict";
 
-  var wave = document.querySelector(".hero__wave");
-  if (!wave) return;
+  var svg = document.querySelector(".hero__wave");
+  if (!svg) return;
 
-  var trace = wave.querySelector(".hero__trace");
+  var NS = "http://www.w3.org/2000/svg";
+  var grid = svg.querySelector(".hero__grid");
+  var labels = svg.querySelector(".hero__labels");
+  var trace = svg.querySelector(".hero__trace");
+  var readout = svg.querySelector(".hero__readout");
+  var text = document.querySelector(".hero__text");
 
-  var W = 1000, MID = 200, AMP = 120;  // viewBox units
-  var ANCHOR = 0.75;                   // phase is pinned at 75% of the width
-  var C_MIN = 2, C_MAX = 9;            // cycles across the width: top / scrolled
-  var RANGE = 600;                     // px of scrolling from C_MIN to C_MAX
-  var STEPS = 500;
+  var SPAN_MS = 5;                 // time across the full width
+  var F_MIN = 400, F_MAX = 1800;   // Hz: top of page / fully scrolled
+  var RANGE = 600;                 // px of scrolling from F_MIN to F_MAX
+  var ANCHOR = 0.75;               // phase is pinned at 75% of the width
+
+  var w = 0, h = 0, mid = 0, amp = 0, right = 0;
+
+  function el(name, attrs, content) {
+    var node = document.createElementNS(NS, name);
+    for (var k in attrs) node.setAttribute(k, attrs[k]);
+    if (content) node.textContent = content;
+    return node;
+  }
+
+  function layout() {
+    var box = svg.getBoundingClientRect();
+    w = box.width;
+    h = box.height;
+    if (!w || !h) return;
+    mid = Math.round(h * 0.5) + 0.5;
+    amp = Math.round(h * 0.3);
+    // right-hand labels line up with the right edge of the page content
+    var pad = parseFloat(getComputedStyle(text).paddingRight) || 0;
+    right = Math.min(w - 16, text.getBoundingClientRect().right - pad - box.left);
+    svg.setAttribute("viewBox", "0 0 " + w + " " + h);
+
+    while (grid.firstChild) grid.removeChild(grid.firstChild);
+    while (labels.firstChild) labels.removeChild(labels.firstChild);
+
+    var msPx = w / SPAN_MS;
+    for (var i = 1; i < SPAN_MS * 2; i++) {
+      var x = Math.round((i * msPx) / 2) + 0.5;
+      var major = i % 2 === 0;
+      if (major) {
+        grid.appendChild(el("path", { "class": "hero__gridline", d: "M" + x + " 0V" + h }));
+        labels.appendChild(el("text", { "class": "hero__label", x: x + 6, y: mid + 18 }, i / 2 + " ms"));
+      }
+      var len = major ? 6 : 3;
+      grid.appendChild(el("path", { "class": "hero__tick", d: "M" + x + " " + (mid - len) + "V" + (mid + len) }));
+    }
+
+    [[-1, "+1 V"], [1, "\u22121 V"]].forEach(function (ref) {
+      var y = Math.round(mid + ref[0] * amp) + 0.5;
+      grid.appendChild(el("path", { "class": "hero__gridline", d: "M0 " + y + "H" + w }));
+      labels.appendChild(el("text", { "class": "hero__label", x: right, y: y - 6, "text-anchor": "end" }, ref[1]));
+    });
+    grid.appendChild(el("path", { "class": "hero__axisline", d: "M0 " + mid + "H" + w }));
+    labels.appendChild(el("text", { "class": "hero__label", x: right, y: mid - 6, "text-anchor": "end" }, "0 V"));
+
+    readout.setAttribute("x", right);
+    readout.setAttribute("y", Math.max(16, mid - amp - 24));
+
+    render(freq);
+  }
 
   function target() {
     var k = Math.min(window.scrollY / RANGE, 1);
-    return C_MIN + (C_MAX - C_MIN) * k;
+    return F_MIN + (F_MAX - F_MIN) * k;
   }
 
-  function render(cycles) {
+  function render(f) {
+    if (!w) return;
+    var cycles = (f * SPAN_MS) / 1000;
+    var steps = Math.ceil(w / 3);
     var d = "";
-    for (var i = 0; i <= STEPS; i++) {
-      var u = i / STEPS;
-      var y = MID - AMP * Math.sin(2 * Math.PI * cycles * (u - ANCHOR));
-      d += (i ? "L" : "M") + (u * W).toFixed(1) + " " + y.toFixed(1);
+    for (var i = 0; i <= steps; i++) {
+      var u = i / steps;
+      var y = mid - amp * Math.sin(2 * Math.PI * cycles * (u - ANCHOR));
+      d += (i ? "L" : "M") + (u * w).toFixed(1) + " " + y.toFixed(1);
     }
     trace.setAttribute("d", d);
+    var hz = f < 1000 ? Math.round(f) + " Hz" : (f / 1000).toFixed(2) + " kHz";
+    readout.textContent = "f " + hz + "  \u00b7  T " + (1000 / f).toFixed(2) + " ms";
   }
 
-  var cycles = target();
-  render(cycles);
+  var freq = target();
+  layout();
+  if ("ResizeObserver" in window) new ResizeObserver(layout).observe(svg);
+  else window.addEventListener("resize", layout);
+
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   var onScreen = true;
@@ -186,15 +249,15 @@
     new IntersectionObserver(function (entries) {
       onScreen = entries[0].isIntersecting;
       if (onScreen) start();
-    }).observe(wave);
+    }).observe(svg);
   }
 
   function frame() {
     var goal = target();
-    cycles += (goal - cycles) * 0.2;
-    if (Math.abs(goal - cycles) < 0.001) cycles = goal;
-    render(cycles);
-    if (cycles === goal || !onScreen) {
+    freq += (goal - freq) * 0.2;
+    if (Math.abs(goal - freq) < 0.5) freq = goal;
+    render(freq);
+    if (freq === goal || !onScreen) {
       running = false;
       return;
     }
