@@ -6,8 +6,8 @@ layout: default
     - About text   → index.md
     - Skills       → _data/skills.yml
     - Projects     → one file per project in _projects/
-    - Courses      → _data/courses.yml
     - Activities   → _data/activities.yml
+    - Courses      → _data/courses.yml
 {%- endcomment -%}
 
 <section class="hero" aria-labelledby="hero-title">
@@ -66,36 +66,6 @@ layout: default
   </div>
 </section>
 
-<section id="courses" class="section container" aria-labelledby="courses-title">
-  <h2 id="courses-title" class="section__label">Courses</h2>
-  <div class="section__body">
-    <ol class="entries">
-      {%- for course in site.data.courses %}
-      <li class="entry">
-        <div class="entry__aside">
-          <span class="entry__code">{{ course.code }}</span>
-          {%- if course.term %}<span>{{ course.term }}</span>{% endif %}
-        </div>
-        <div class="entry__main">
-          <h3 class="entry__title">{{ course.title }}</h3>
-          {%- if course.description %}
-          <div class="entry__text">{{ course.description | markdownify }}</div>
-          {%- endif %}
-          {%- if course.topics.size > 0 %}
-          <ul class="tags" aria-label="Topics">
-            {%- for topic in course.topics %}<li>{{ topic }}</li>{% endfor %}
-          </ul>
-          {%- endif %}
-          {%- if course.project and course.project != "" %}
-          <a class="entry__more" href="{{ course.project | relative_url }}">Related project{% include icon-arrow-right.html %}</a>
-          {%- endif %}
-        </div>
-      </li>
-      {%- endfor %}
-    </ol>
-  </div>
-</section>
-
 <section id="activities" class="section container" aria-labelledby="activities-title">
   <h2 id="activities-title" class="section__label">Activities</h2>
   <div class="section__body">
@@ -122,6 +92,36 @@ layout: default
           {%- else %}
           <a class="entry__more" href="{{ activity.link | relative_url }}">{{ activity.link_label | default: "Related project" }}{% include icon-arrow-right.html %}</a>
           {%- endif %}
+          {%- endif %}
+        </div>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+</section>
+
+<section id="courses" class="section container" aria-labelledby="courses-title">
+  <h2 id="courses-title" class="section__label">Courses</h2>
+  <div class="section__body">
+    <ol class="entries">
+      {%- for course in site.data.courses %}
+      <li class="entry">
+        <div class="entry__aside">
+          <span class="entry__code">{{ course.code }}</span>
+          {%- if course.term %}<span>{{ course.term }}</span>{% endif %}
+        </div>
+        <div class="entry__main">
+          <h3 class="entry__title">{{ course.title }}</h3>
+          {%- if course.description %}
+          <div class="entry__text">{{ course.description | markdownify }}</div>
+          {%- endif %}
+          {%- if course.topics.size > 0 %}
+          <ul class="tags" aria-label="Topics">
+            {%- for topic in course.topics %}<li>{{ topic }}</li>{% endfor %}
+          </ul>
+          {%- endif %}
+          {%- if course.project and course.project != "" %}
+          <a class="entry__more" href="{{ course.project | relative_url }}">Related project{% include icon-arrow-right.html %}</a>
           {%- endif %}
         </div>
       </li>
