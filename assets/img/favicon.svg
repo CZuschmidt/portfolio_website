@@ -1,4 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="4" fill="#111111"/>
+  <!-- Browser tab icon. Background colour = the first rect's fill, outline = its
+       stroke (keeps the white icon visible on white tab bars), accent = the
+       second rect's fill. After editing, regenerate the PNG versions with
+       `node tools/render-images.mjs` (see README). -->
+  <rect x="0.75" y="0.75" width="30.5" height="30.5" rx="4" fill="#ffffff" stroke="#d4d4d4" stroke-width="1.5"/>
   <rect x="10" y="10" width="12" height="12" fill="#ea580c"/>
 </svg>
