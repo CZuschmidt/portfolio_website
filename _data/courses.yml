@@ -21,25 +21,61 @@
 #  first, exactly as in the examples.
 # =============================================================================
 
-- code: "ESE 0000"
-  title: "Placeholder: Circuits and Systems"
-  term: "Term 20XX"
+- code: "ESE 2150"
+  title: "Circuits and Systems"
+  term: "Fall 2026"
   description: >-
-    Placeholder description. Summarize what the course covered and the most
-    substantial lab or project you completed in it.
-  topics: ["Topic", "Topic", "Topic"]
-  project: "/projects/example-power-supply/"
+    Analysis/design of linear circuits, Operational amplifiers, first and second order transient
+    response, frequency response and transfer functions, diodes and MOSFETs in amplifier and logic 
+    circuits. 
+  topics: ["Circuit analysis", "Op-Amps", "MOSFETs", "Diodes"]
+  # project: ""
 
-- code: "ESE 0000"
-  title: "Placeholder: Digital Design"
-  term: "Term 20XX"
+- code: "ESE 2180"
+  title: "Electronic, Photonic, and Electromechanical Devices"
+  term: "Fall 2026"
   description: >-
-    Placeholder description. One to three sentences is plenty.
-  topics: ["Topic", "Topic"]
+    Design and physics of solid-state devices, semiconductor
+    electronics and optoelectronics (LEDs, photodetectors, solar cells,
+    transistors, memory), electromagnetic and optical devices (transmission
+    lines, waveguides, fibers, antennas), and electromechanical sensors/actuators.
+  topics: ["Semiconductors", "Optoelectronics", "LEDs"]
 
-- code: "ESE 0000"
-  title: "Placeholder: Signals and Systems"
-  term: "Term 20XX"
+- code: "CIS 2400"
+  title: "Introduction to Computer Systems"
+  term: "Fall 2026"
   description: >-
-    Placeholder description. Courses can also be listed with just a code,
-    title and term.
+    Computer architecture and design course, introduction into CMOS and logic 
+    gate-level design, RISC-V assembly programming, C programming, memory management, 
+    compiler design 
+  topics: ["CMOS", "Logic Gates", "RISC-V assembly", "C", "Memory", "Compilers"]
+
+
+- code: "CIS 1600"
+  title: "Introduction to Computer Systems"
+  term: "Fall 2026"
+  description: >-
+    Computer architecture and design course, introduction into CMOS and logic 
+    gate-level design, RISC-V assembly programming, C programming, memory management, 
+    compiler design 
+  topics: ["CMOS", "Logic Gates", "RISC-V assembly", "C", "Memory", "Compilers"]
+
+  
+- code: "CIS 1200"
+  title: "Programming Languages and Techniques"
+  term: "Spring 2026"
+  description: >-
+    OCAML/Java programming, recursion, object-oriented programming, graphical 
+    interfaces, data structures
+  # topics: ["CMOS", "Logic Gates", "RISC-V assembly", "C", "Memory", "Compilers"]
+
+- code: "CIS 1600"
+  title: "Mathematical Foundations of Computer Science"
+  term: "Fall 2026"
+  description: >-
+    Discrete mathematics, proof techniques, logic, induction, combinatorics, 
+    graph theory, probability
+  # topics: ["CMOS", "Logic Gates", "RISC-V assembly", "C", "Memory", "Compilers"]
+
+  
+
